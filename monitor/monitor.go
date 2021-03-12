@@ -52,6 +52,8 @@ func checkIntervals(c *config.AppConfig) bool {
 }
 
 func Start(c *config.AppConfig) {
+	// Init metric file
+	writemetric.InitMetricFile(c)
 	for {
 		select {
 		case t := <-logReader.Lines:
@@ -69,7 +71,7 @@ func Start(c *config.AppConfig) {
 					// 记录符合node_exporter 收集的信息文件
 					c.RestartNum++
 					fmt.Printf("当前重启次数 %v,写入文件", c.RestartNum)
-					writemetric.WriteData(c)
+					writemetric.WriteMetricData(c)
 				}
 			}
 		default:
